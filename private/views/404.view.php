@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- Meta Tags -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Dreams LMS is a powerful Learning Management System template designed for educators, training institutions, and businesses. Manage courses, track student progress, conduct virtual classes, and enhance e-learning experiences with an intuitive and feature-rich platform.">
+    <meta name="keywords" content="LMS template, Learning Management System, e-learning software, online course platform, student management, education portal, virtual classroom, training management system, course tracking, online education, cortia, tescode, school">
+    <meta name="author" content="Dreams Technologies">
+    <meta name="robots" content="index, follow">
+
+    <title>Cortia SMS</title>
+    
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="assets/img/favicon.png">
+    <link rel="apple-touch-icon" href="assets/img/apple-icon.png">
+
+    <!-- Theme Settings Js -->
+    <script src="<?=ROOT?>assets/js/theme-script.js" type="bd7c99692ed2d7c6ddcbd5f0-text/javascript"></script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="<?=ROOT?>assets/css/bootstrap.min.css">
+
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="<?=ROOT?>assets/plugins/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="<?=ROOT?>assets/plugins/fontawesome/css/all.min.css">
+
+    <!-- Feather CSS -->
+    <link rel="stylesheet" href="<?=ROOT?>assets/css/feather.css">
+
+    <!-- Daterangepikcer CSS -->
+    <link rel="stylesheet" href="<?=ROOT?>assets/plugins/daterangepicker/daterangepicker.css">
+
+    <!-- Iconsax CSS -->
+    <link rel="stylesheet" href="<?=ROOT?>assets/css/iconsax.css">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="<?=ROOT?>assets/css/style.css">
+
+</head>
+
+<body class="error-page">
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+
+        <div class="error-box">
+            <img src="<?=ROOT?>assets/img/error/img-01.svg" alt="img" class="img-fluid bg-01">
+            <img src="<?=ROOT?>assets/img/error/img-02.svg" alt="img" class="img-fluid bg-02">
+            <img src="<?=ROOT?>assets/img/error/img-03.svg" alt="img" class="img-fluid bg-03">
+            <img src="<?=ROOT?>assets/img/error/img-04.svg" alt="img" class="img-fluid bg-04">
+            <img src="<?=ROOT?>assets/img/error/img-05.svg" alt="img" class="img-fluid bg-05">
+            <img src="<?=ROOT?>assets/img/error/img-06.svg" alt="img" class="img-fluid bg-06">
+            <div class="error-logo">
+                <a href="students">
+                    <img src="<?=ROOT?>assets/img/logo.svg" class="img-fluid" alt="Logo">
+                </a>
+            </div>
+            <div class="error-box-img">
+                <img src="<?=ROOT?>assets/img/error/error-01.svg" alt="Img" class="img-fluid">
+            </div>
+            <h3 class="h2 mb-3"> Oh No! Error <span class="text-secondary ms-1">404</span></h3>
+            <p class="h4 font-weight-normal">This page you requested counld not found.</p>
+            <a href="#" class="btn back-to-home-btn"><i class="isax isax-arrow-left-2 me-1"></i> Back to Home</a>
+        </div>
+
+    </div>
+    <!-- /Main Wrapper -->
+
+    <!-- jQuery -->
+    <script src="assets/js/jquery-3.7.1.min.js" type="8b50dfe404f206af74d09633-text/javascript"></script>
+
+    <!-- Bootstrap Core JS -->
+    <script src="assets/js/bootstrap.bundle.min.js" type="8b50dfe404f206af74d09633-text/javascript"></script>
+
+    <!-- Custom JS -->
+    <script src="assets/js/script.js" type="8b50dfe404f206af74d09633-text/javascript"></script>
+
+    <script src="../../cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="8b50dfe404f206af74d09633-|49" defer></script>
+    <script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"rayId":"93f10a2468d12ba9","version":"2025.4.0-1-g37f21b1","serverTiming":{"name":{"cfExtPri":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}},"token":"3ca157e612a14eccbb30cf6db6691c29","b":1}' crossorigin="anonymous"></script>
+</body>
+
+</html>

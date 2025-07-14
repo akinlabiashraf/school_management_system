@@ -1,0 +1,14 @@
+RewriteEngine On
+
+# Only rewrite if file/directory does not exist
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Internally redirect to custom error page
+RewriteRule ^(.*)$ index.php?url=$1 [L,QSA]
+
+# # Still catch actual 505 errors (not handled by RewriteRule)
+# ErrorDocument 505 /505.html
+
+
+
