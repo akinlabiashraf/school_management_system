@@ -49,7 +49,7 @@
 							</div>
 							<div class="col-md-6">
 								<div class="d-flex align-items-center flex-wrap gap-3 justify-content-md-end">
-									<a href="<?=ROOT?>/single_class/<?=$row->class_id?>?tab=tests" class="btn btn-white rounded-pill">View Class</a>
+									<a href="<?= ROOT ?>/single_class/<?= $row->class_id ?>?tab=tests" class="btn btn-white rounded-pill">View Class</a>
 									<a href="#" class="btn btn-secondary rounded-pill"><?= ucfirst(str_replace("_", " ", Auth::getranks())) ?> Dashboard</a>
 								</div>
 							</div>
@@ -61,12 +61,13 @@
 						<!-- /Sidebar -->
 						<div class="col-lg-9">
 							<div class="page-title d-flex align-items-center justify-content-between">
-								<h5 class="fw-bold"><?= $row->class ?></h5>
+								<h5 class="fw-bold"><?= $row->test ?></h5>
 								<a href="#" class="edit-profile-icon"><i class="isax isax-edit-2"></i></a>
 							</div>
 							<div class="card">
 								<div class="card-body">
 									<h5 class="fs-18 pb-3 border-bottom mb-3">Basic Information</h5>
+
 									<div class="row">
 										<div class="col-md-4">
 											<div class="mb-3">
@@ -93,7 +94,7 @@
 										$badgeClass = $isEnabled ? 'bg-success' : 'bg-danger';
 										$badgeText = $isEnabled ? 'Yes' : 'No';
 										?>
-										
+
 										<div class="col-md-4">
 											<div class="mb-3">
 												<h6>Test Active</h6>
@@ -105,8 +106,24 @@
 										</div>
 										<div class="col-md-4">
 											<div class="mb-3">
+												<h6>Question Count</h6>
+												<span class="badge badge-sm <?= $total_questions ?> d-inline-flex align-items-center me-1">
+													<i class="fa-solid fa-circle fs-5 me-1"></i>
+													<?= $badgeText ?>
+												</span>
+											</div>
+										</div>
+										<div class="col-md-4">
+											<div class="mb-3">
 												<h6>Registration Date</h6>
 												<span><?= date('d M Y', strtotime($row->date)) ?></span>
+											</div>
+										</div>
+										<div class="col-md-12">
+											<div class="mb-3">
+												<a href="<?=ROOT?>single_class/<?=$row->class_id?>?tab=tests" class="bg-success px-5" >
+													<i class="isax isax-arrow-left-1" data-bs-toggle="modal" data-bs-target="#edit_assignment"></i>View Test
+												</a>
 											</div>
 										</div>
 									</div>

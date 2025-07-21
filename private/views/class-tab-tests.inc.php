@@ -62,6 +62,7 @@
 				<th>Created By</th>
 				<th>Date Created</th>
 				<th>Active</th>
+				<th>Taken</th>
 				<th>Action</th>
 			</tr>
 		</thead>
@@ -105,6 +106,7 @@
 							</span>
 
 						</td>
+						<td><?=has_taken_test($row->test_id)?></td>
 						<td>
 							<div class="d-flex align-items-center">
 								<?php if (Auth::access('lecturer')): ?>

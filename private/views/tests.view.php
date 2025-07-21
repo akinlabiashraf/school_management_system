@@ -50,8 +50,16 @@
                         </div>
                         <div class="col-md-6">
                             <div class="d-flex align-items-center flex-wrap gap-3 justify-content-md-end">
+                                <!-- <?php if (Auth::access('lecturer')): ?>
+                                    <?php
+                                            $link = ROOT . "/single_class/testadd/" . $row->class_id . "?tab=test-add";
+                                    ?>
+                                    <a href="<?= $link ?>" class="btn btn-white rounded-pill">Add New Test</a>
+
+                                <?php endif; ?> -->
+
                                 <?php if (Auth::access('lecturer')): ?>
-                                    <a href="classes/add" class="btn btn-white rounded-pill">Add New Test</a>
+                                    <a href="#" class="btn btn-white rounded-pill">Add Course</a>
                                 <?php endif; ?>
                                 <a href="#" class="btn btn-secondary rounded-pill">Dashboard</a>
                             </div>
@@ -63,6 +71,54 @@
                     <?php $this->view('includes/admin_sidenav') ?>
                     <!-- /Sidebar -->
                     <div class="col-lg-9">
+                        <div class="page-title d-flex align-items-center justify-content-between">
+                            <h5 class="fw-bold">All Tests</h5>
+                            <div>
+                                <?php if (Auth::access('lecturer') && !empty($test_rows) && isset($test_rows[0]->class_id)): ?>
+                                    <a href="<?= ROOT ?>/single_class/testadd/<?= $test_rows[0]->class_id ?>?tab=test-add" class="btn btn-secondary d-flex align-items-center">
+                                        <i class="isax isax-add-circle me-1"></i> Add Test
+                                    </a>
+                                <?php endif; ?>
+
+
+
+                                <?php if (Auth::access('lecturer')): ?>
+                                    <!-- <a href="<?= ROOT ?>/single_class/testadd/<?= $test_row->class_id ?>?tab=test-add" class="btn btn-secondary d-flex align-items-center">
+                             <i class="isax isax-add-circle me-1"></i>Add Test
+                         </a> -->
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="mb-3">
+                                    <div class="dropdown">
+                                        <a href="javascript:void(0);" class="dropdown-toggle text-gray-6 btn  rounded border d-inline-flex align-items-center" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Order
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-end p-3">
+                                            <li>
+                                                <a href="javascript:void(0);" class="dropdown-item rounded-1">Secondary</a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(0);" class="dropdown-item rounded-1">Instituition</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <form action="">
+                                    <div class="input-icon mb-3">
+                                        <span class="input-icon-addon">
+                                            <i class="isax isax-search-normal-14"></i>
+                                        </span>
+                                        <input name="find" value="<?= isset($_GET['find']) ? $_GET['find'] : ''; ?>" type="text" class="form-control form-control-md" placeholder="Search">
+                                    </div>
+                                    <button class="input-group-text" id="basic-addon1" style="display: none;"><i class="fa fa-search"></i> Find</button>
+                                </form>
+                            </div>
+                        </div>
                         <?php include(views_path('tests')) ?>
                     </div>
                 </div>

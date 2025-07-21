@@ -1,6 +1,5 @@
 <?php
-
-//controller for tests
+// Test Controller 
 class Tests extends Controller
 {
 	
@@ -11,6 +10,7 @@ class Tests extends Controller
 		{
 			$this->redirect('login');
 		}
+		$user = Auth::user(); // optional if you need full user object
 
 		$tests = new Tests_model();
 
@@ -18,13 +18,13 @@ class Tests extends Controller
 
 		if(Auth::access('admin')){
 
-			$query = "select * from tests where school_id = :school_id order by id desc";
+			$query = "SELECT * from tests where school_id = :school_id order by id desc";
 			$arr['school_id'] = $school_id;
 
 			if(isset($_GET['find']))
 	 		{
 	 			$find = '%' . $_GET['find'] . '%';
-	 			$query = "select * from tests where school_id = :school_id && (test like :find) order by id desc";
+	 			$query = "SELECT * from tests where school_id = :school_id && (test like :find) order by id desc";
 	 			$arr['find'] = $find;
 	 		}
 
@@ -32,28 +32,29 @@ class Tests extends Controller
  		}else{
 
  			$test = new Tests_model();
- 			$mytable = "test_students";
+ 			$mytable = "class_students";
  			if(Auth::getRank() == "lecturer"){
  				$mytable = "test_lecturers";
  			}
  			
-			$query = "select * from $mytable where user_id = :user_id && disabled = 0";
+			$query = "SELECT * from $mytable where user_id = :user_id && disabled = 0";
  			$arr['user_id'] = Auth::getUser_id();
 
 			if(isset($_GET['find']))
 	 		{
 	 			$find = '%' . $_GET['find'] . '%';
-	 			$query = "select tests.test, {$mytable}.* from $mytable join tests on tests.test_id = {$mytable}.test_id where {$mytable}.user_id = :user_id && {$mytable}.disabled = 0 && tests.test like :find ";
+	 			$query = "SELECT tests.test, {$mytable}.* from $mytable join tests on tests.test_id = {$mytable}.test_id where {$mytable}.user_id = :user_id && {$mytable}.disabled = 0 && tests.test like :find ";
 	 			$arr['find'] = $find;
 	 		}
 
-			$arr['stud_tests'] = $test->query($query,$arr);
+			$arr['stud_classes'] = $test->query($query,$arr);
 
 			$data = array();
-			if($arr['stud_tests']){
-				foreach ($arr['stud_tests'] as $key => $arow) {
+			if($arr['stud_classes']){
+				foreach ($arr['stud_classes'] as $key => $arow) {
 					// code...
-					$data[] = $test->first('test_id',$arow->test_id);
+					// show($arow);
+					$data[] = $test->first('class_id',$arow->class_id);
 				}
 			}
  
@@ -64,7 +65,7 @@ class Tests extends Controller
 
 		$this->view('tests',[
 			'crumbs'=>$crumbs,
-			'rows'=>$data
+			'test_rows'=>$data
 		]);
 	}
 

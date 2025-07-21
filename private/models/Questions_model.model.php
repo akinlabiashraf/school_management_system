@@ -86,7 +86,4 @@ class Questions_model extends Model
         return $data;
     }
 
-    
-
- 
 }

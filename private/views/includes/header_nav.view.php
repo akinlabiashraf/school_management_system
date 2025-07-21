@@ -112,8 +112,8 @@
                             </li>
                         </ul>
                         <div class="profile-footer">
-                            <a class="dropdown-item d-inline-flex align-items-center rounded fw-medium" href="<?= ROOT ?>Logout"><i class="isax isax-logout me-2"></i>Logout</a>
-                            <a href="logout" class="btn btn-secondary d-inline-flex align-items-center justify-content-center w-100"><i class="isax isax-logout me-2"></i>Logout</a>
+                            <a class="dropdown-item d-inline-flex align-items-center rounded fw-medium" href="<?=ROOT?>Logout"><i class="isax isax-logout me-2"></i>Logout</a>
+                            <a href="<?=ROOT?>Logout" class="btn btn-secondary d-inline-flex align-items-center justify-content-center w-100"><i class="isax isax-logout me-2"></i>Logout</a>
                         </div>
                     </div>
                 </div>
