@@ -50,8 +50,9 @@
 							<div class="col-md-6">
 								<div class="d-flex align-items-center flex-wrap gap-3 justify-content-md-end">
 									<a href="<?= ROOT ?>/single_class/<?= $row->class_id ?>?tab=tests" class="btn btn-white rounded-pill">View Class</a>
-									<a href="#" class="btn btn-secondary rounded-pill"><?= ucfirst(str_replace("_", " ", Auth::getranks())) ?> Dashboard</a>
+									<a href="<?= ROOT ?>/single_test/<?= $row->test_id ?>?tab=scores" class="btn btn-secondary rounded-pill"><?= ucfirst(str_replace("_", " ", Auth::getranks())) ?> Student Scores</a>
 								</div>
+								
 							</div>
 						</div>
 					</div>
@@ -97,10 +98,29 @@
 
 										<div class="col-md-4">
 											<div class="mb-3">
-												<h6>Test Active</h6>
+												<h6>Published:</h6>
 												<span class="badge badge-sm <?= $badgeClass ?> d-inline-flex align-items-center me-1">
 													<i class="fa-solid fa-circle fs-5 me-1"></i>
 													<?= $badgeText ?>
+												</span>
+											</div>
+										</div>
+										<?php
+
+										$btntext = 'Unpublish';
+										$btncolor = 'btn-primary';
+										if ($row->disabled) {
+											$btntext = 'Publish';
+											$btncolor = 'btn-danger';
+										}
+										?>
+										<div class="col-md-4">
+											<div class="mb-3">
+												<h6>Test Action</h6>
+												<span class="badge badge-sm  d-inline-flex align-items-center me-1">
+													<a href="<?= ROOT ?>/single_test/<?= $row->test_id ?>?disable=true">
+														<button class="btn btn-sm <?= $btncolor ?>"><?= $btntext ?></button>
+													</a>
 												</span>
 											</div>
 										</div>
@@ -119,10 +139,17 @@
 												<span><?= date('d M Y', strtotime($row->date)) ?></span>
 											</div>
 										</div>
-										<div class="col-md-12">
+										<div class="col-md-4">
 											<div class="mb-3">
-												<a href="<?=ROOT?>single_class/<?=$row->class_id?>?tab=tests" class="bg-success px-5" >
-													<i class="isax isax-arrow-left-1" data-bs-toggle="modal" data-bs-target="#edit_assignment"></i>View Test
+												<a href="<?= ROOT ?>single_class/<?= $row->class_id ?>?tab=tests" class="bg-success py-2 px-5">
+													<i class="isax isax-arrow-left" data-bs-toggle="modal" data-bs-target="#edit_assignment"></i> View Test
+												</a>
+											</div>
+										</div>
+										<div class="col-md-4">
+											<div class="mb-3">
+												<a href="<?= ROOT ?>/single_test/<?= $row->test_id ?>?tab=scores" class="bg-success py-2 px-5">Student score 
+													<i class="isax isax-arrow-right-1" data-bs-toggle="modal" data-bs-target="#edit_assignment"></i>
 												</a>
 											</div>
 										</div>
@@ -174,6 +201,11 @@
 								case 'delete':
 									// code...
 									include(views_path('test-tab-delete'));
+									break;
+
+								case 'scores':
+									// code...
+									include(views_path('test-tab-scores'));
 									break;
 
 								default:

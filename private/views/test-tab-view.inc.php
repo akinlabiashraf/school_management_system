@@ -1,28 +1,31 @@
-<nav class="navbar">
-	<center>
-		<h5>Test Questions</h5>
-		<p><b>Total Questions:</b> <?= $total_questions ?></p>
-	</center>
-	<div class="btn-group">
-		<button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-			<i class="fa fa-bars"></i>Add
-		</button>
-		<ul class="dropdown-menu  dropdown-menu-end">
-			<li><a class="dropdown-item" href="<?= ROOT ?>/single_test/addquestion/<?= $row->test_id ?>?type=multiple">
-					Add Multiple choice Question</a>
-			</li>
-			<li><a class="dropdown-item" href="<?= ROOT ?>/single_test/addquestion/<?= $row->test_id ?>?type=objective">
-					Add Objective Question</a>
-			</li>
-			<li>
-				<hr class="dropdown-divider">
-			</li>
-			<li><a class="dropdown-item" href="<?= ROOT ?>/single_test/addquestion/<?= $row->test_id ?>">
-					Add Subjective Question</a>
-			</li>
-		</ul>
-	</div>
-</nav>
+<?php if ($row->disabled): ?>
+	<nav class="navbar">
+		<center>
+			<h5>Test Questions</h5>
+			<p><b>Total Questions:</b> <?= $total_questions ?></p>
+		</center>
+		<div class="btn-group">
+			<button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+				<i class="fa fa-bars"></i>Add
+			</button>
+			<ul class="dropdown-menu  dropdown-menu-end">
+				<li><a class="dropdown-item" href="<?= ROOT ?>/single_test/addquestion/<?= $row->test_id ?>?type=multiple">
+						Add Multiple choice Question</a>
+				</li>
+				<li><a class="dropdown-item" href="<?= ROOT ?>/single_test/addquestion/<?= $row->test_id ?>?type=objective">
+						Add Objective Question</a>
+				</li>
+				<li>
+					<hr class="dropdown-divider">
+				</li>
+				<li><a class="dropdown-item" href="<?= ROOT ?>/single_test/addquestion/<?= $row->test_id ?>">
+						Add Subjective Question</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+	<hr>
+<?php endif; ?>
 
 <hr>
 
@@ -81,12 +84,15 @@
 
 				<p class="card-text float-end">
 
-					<a href="<?= ROOT ?>/single_test/editquestion/<?= $row->test_id ?>/<?= $question->id ?><?= $type ?>">
-						<button class="btn btn-info text-white pe-1"><i class="fa fa-edit"></i></button>
-					</a>
-					<a href="<?= ROOT ?>/single_test/deletequestion/<?= $row->test_id ?>/<?= $question->id ?><?= $type ?>">
-						<button class="btn btn-danger text-white pe-1"><i class="fa fa-trash-alt"></i></button>
-					</a>
+					<?php if ($row->editable): ?>
+
+						<a href="<?= ROOT ?>single_test/editquestion/<?= $row->test_id ?>/<?= $question->id ?><?= $type ?>">
+							<button class="btn btn-info text-white pe-1"><i class="fa fa-edit"></i></button>
+						</a>
+						<a href="<?= ROOT ?>single_test/deletequestion/<?= $row->test_id ?>/<?= $question->id ?><?= $type ?>">
+							<button class="btn btn-danger text-white pe-1"><i class="fa fa-trash-alt"></i></button>
+						</a>
+					<?php endif; ?>
 				</p>
 			</div>
 

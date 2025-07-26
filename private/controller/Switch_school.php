@@ -1,7 +1,7 @@
 <?php
 
 // change school controller
-
+// echo "<pre>";
 class Switch_school extends Controller
 {
     function index($id = '')

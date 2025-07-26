@@ -7,7 +7,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12 col-12">
-				<h2 class="breadcrumb-title mb-2">All Tests</h2>
+				<h2 class="breadcrumb-title mb-2">Take Tests</h2>
 				<?php $this->view('includes/crumbs', ['crumbs' => $crumbs]) ?>
 			</div>
 		</div>
@@ -59,20 +59,21 @@
 				<div class="container-fluid p-4 shadow mx-auto" style="max-width: 1000px;">
 					<?php $this->view('includes/crumbs', ['crumbs' => $crumbs]) ?>
 
-					<?php if ($row): ?>
+					<?php if ($row && !($row->disabled && Auth::access('student'))):?>
 
 						<div class="row">
 							<center>
 								<h4><?= esc(ucwords($row->test)) ?></h4>
 							</center>
-							<center>
-								<h5>From: <?= $row->class->class ?></h5>
-							</center>
+							<center class="row">
+	 		<h5 class="col">Class: <?=$row->class->class?></h5>
+	 		<h5 class="col">Student: <?=$student_row->first_name?> <?=$student_row->last_name?></h5>
+	 	</center>
 
 							<table class="table table-hover table-striped table-bordered">
 								<tr>
 									<th>Created by:</th>
-									<td><?= esc($row->user->firstname) ?> <?= esc($row->user->lastname) ?></td>
+									<td><?= esc($row->user->first_name) ?> <?= esc($row->user->last_name) ?></td>
 									<th>Date Created:</th>
 									<td><?= get_date($row->date) ?></td>
 

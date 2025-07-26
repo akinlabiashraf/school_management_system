@@ -125,4 +125,7 @@
 
 <?php $this->view('includes/footer') ?>
 
+    <!-- jQuery -->
+    <?php $this->view('includes/js') ?>
+
 <?php echo Auth::user() ?>

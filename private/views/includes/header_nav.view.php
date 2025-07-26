@@ -31,32 +31,49 @@
                     <li class="has-submenu megamenu">
                         <a href="<?= ROOT ?>home">Current School: <?= Auth::getschool_name() ?></a> <i class=""></i>
                     </li>
-                    <li class="has-submenu megamenu">
+                    <li class="has-submenu megamenu <?= ($this->controller_name() == 'Home') ? ' active ' : '' ?> ">
                         <a href="<?= ROOT ?>home">DASHBOARD <i class=""></i></a>
                     </li>
                     <?php if (Auth::access('admin')): ?>
-                        <li class="has-submenu">
+                        <li class="has-submenu <?= ($this->controller_name() == 'Users') ? ' active ' : '' ?>">
                             <a href="<?= ROOT ?>users">STAFFS <i class=""></i></a>
                         </li>
                     <?php endif ?>
                     <?php if (Auth::access('reception')): ?>
-                        <li class="has-submenu">
+                        <li class="has-submenu <?= ($this->controller_name() == 'Students') ? ' active ' : '' ?>">
                             <a href="<?= ROOT ?>students">STUDENTS <i class=""></i></a>
                         </li>
                     <?php endif; ?>
                     <?php if (Auth::access('super_admin')): ?>
-                        <li class="has-submenu">
+                        <li class="has-submenu <?= ($this->controller_name() == 'Schools') ? ' active ' : '' ?>">
                             <a href="<?= ROOT ?>schools">SCHOOLS <i class=""></i></a>
                         </li>
                     <?php endif; ?>
 
-                    <li class="has-submenu">
+                    <li class="has-submenu <?= ($this->controller_name() == 'Classes') ? ' active ' : '' ?>">
                         <a href="<?= ROOT ?>classes">CLASSES <i class=""></i></a>
                     </li>
 
-                    <li class="has-submenu active">
+                    <li class="has-submenu <?= ($this->controller_name() == 'Tests') ? ' active ' : '' ?>">
                         <a href="<?= ROOT ?>tests">TEST <i class=""></i></a>
                     </li>
+                    <?php
+                    if (Auth::access('lecturer')): ?>
+                        <li class="has-submenu">
+                            <a class="nav-link <?= ($this->controller_name() == 'To_mark') ? ' active ' : '' ?> " href="<?= ROOT ?>to_mark">PENDING<i class=""></i>
+                                <?php
+                                $to_mark_count = (new Tests_model())->get_to_mark_count();
+                                ?>
+                                <?php if ($to_mark_count): ?>
+                                    <span class="badge bg-danger text-white" style="position: absolute;top:0px;right:0px"><?= $to_mark_count ?></span>
+                                <?php endif; ?>
+                            </a>
+                        </li>
+                        <li class="has-submenu">
+                            <a class="nav-link <?= ($this->controller_name() == 'Marked') ? ' active ' : '' ?> " href="<?= ROOT ?>marked_test">MARKED<i class=""></i></a>
+                        </li>
+                    <?php endif; ?>
+
                 </ul>
             </div>
             <div class="header-btn d-flex align-items-center">
@@ -93,7 +110,7 @@
                         </div>
                         <ul class="profile-body">
                             <li>
-                                <a class="dropdown-item d-inline-flex align-items-center rounded fw-medium" href="<?=ROOT?>profile"><i class="isax isax-security-user me-2"></i>My Profile</a>
+                                <a class="dropdown-item d-inline-flex align-items-center rounded fw-medium" href="<?= ROOT ?>profile"><i class="isax isax-security-user me-2"></i>My Profile</a>
                             </li>
                             <li>
                                 <a class="dropdown-item d-inline-flex align-items-center rounded fw-medium" href="#"><i class="isax isax-teacher me-2"></i>Courses</a>
@@ -112,12 +129,30 @@
                             </li>
                         </ul>
                         <div class="profile-footer">
-                            <a class="dropdown-item d-inline-flex align-items-center rounded fw-medium" href="<?=ROOT?>Logout"><i class="isax isax-logout me-2"></i>Logout</a>
-                            <a href="<?=ROOT?>Logout" class="btn btn-secondary d-inline-flex align-items-center justify-content-center w-100"><i class="isax isax-logout me-2"></i>Logout</a>
+                            <a class="dropdown-item d-inline-flex align-items-center rounded fw-medium" href="<?= ROOT ?>Logout"><i class="isax isax-logout me-2"></i>Logout</a>
+                            <a href="<?= ROOT ?>Logout" class="btn btn-secondary d-inline-flex align-items-center justify-content-center w-100"><i class="isax isax-logout me-2"></i>Logout</a>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
+        
+        <form class="form-inline">
+        <div class="input-group">
+
+          <?php $years = get_years()?>
+          <select name="school_year" class="form-select" style="max-width:100px">
+            <option><?=get_var('school_year',!empty($_SESSION['SCHOOL_YEAR']->year) ? $_SESSION['SCHOOL_YEAR']->year : date("Y",time()),"get")?></option>
+            <?php foreach ($years as $year): ?>
+              <option><?=$year?></option>
+            <?php endforeach ?>
+           </select>
+           
+          <div class="input-group-prepend">
+            <button class="input-group-text" id="basic-addon1">&nbsp<i class="fa fa-chevron-right"></i></button>
+          </div>
+        </div>
+      </form>
     </div>
 </header>

@@ -59,7 +59,7 @@
                      <tr>
                          <td>
                              <div class="d-flex align-items-center">
-                                 <a href="<?= ROOT ?>single_class/<?= $row->class_id ?>" class="d-inline-flex fs-14 me-1 action-icon">
+                                 <a href="<?= ROOT ?>single_class/<?= $row->class_id ?>?tab=students" class="d-inline-flex fs-14 me-1 action-icon">
                                      <i class="fa fa-chevron-right" data-bs-toggle="modal" data-bs-target="#edit_assignment"></i>
                                  </a>
                              </div>

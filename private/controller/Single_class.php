@@ -8,9 +8,9 @@ class Single_class extends Controller
 	{
 		// code...
 		$errors = array();
-		if(!Auth::logged_in())
+		if(!Auth::access('student'))
 		{
-			$this->redirect('login');
+			$this->redirect('access_denied');
 		}
 
 		$classes = new Classes_model();
@@ -35,7 +35,7 @@ class Single_class extends Controller
 		if($page_tab == 'lecturers'){
 			
 			//display lecturers
-			$query = "SELECT * from class_lecturers where class_id = :class_id && disabled = 0 order by id desc limit $limit offset $offset";
+			$query = "select * from class_lecturers where class_id = :class_id && disabled = 0 order by id desc limit $limit offset $offset";
 			$lecturers = $lect->query($query,['class_id'=>$id]);
 
 			$data['lecturers'] 		= $lecturers;
@@ -43,7 +43,7 @@ class Single_class extends Controller
 		if($page_tab == 'students'){
 			
 			//display lecturers
-			$query = "SELECT * from class_students where class_id = :class_id && disabled = 0 order by id desc limit $limit offset $offset";
+			$query = "select * from class_students where class_id = :class_id && disabled = 0 order by id desc limit $limit offset $offset";
 			$students = $lect->query($query,['class_id'=>$id]);
 
 			$data['students'] 		= $students;
@@ -51,7 +51,7 @@ class Single_class extends Controller
 		if($page_tab == 'tests'){
 			
 			//display tests
-			$query = "SELECT * FROM tests WHERE class_id = :class_id order by id desc limit $limit offset $offset";
+			$query = "select * from tests where class_id = :class_id order by id desc limit $limit offset $offset";
 			$tests = $lect->query($query,['class_id'=>$id]);
 
 			$data['tests'] 		= $tests;
@@ -101,7 +101,7 @@ class Single_class extends Controller
 					//find lecturer
 					$user = new User();
 					$name = "%".trim($_POST['name'])."%";
-					$query = "SELECT * from users where (first_name like :fname || last_name like :lname) && ranks = 'lecturer' limit 10";
+					$query = "select * from users where (first_name like :fname || last_name like :lname) && rank = 'lecturer' limit 10";
 					$results = $user->query($query,['fname'=>$name,'lname'=>$name,]);
 				}else{
 					$errors[] = "please type a name to find";
@@ -111,7 +111,7 @@ class Single_class extends Controller
 			if(isset($_POST['selected'])){
 
 				//add lecturer
-				$query = "SELECT disabled,id from class_lecturers where user_id = :user_id && class_id = :class_id limit 1";
+				$query = "select disabled,id from class_lecturers where user_id = :user_id && class_id = :class_id limit 1";
   
 				if(!$check = $lect->query($query,[
 					'user_id' => $_POST['selected'],
@@ -201,7 +201,7 @@ class Single_class extends Controller
 					//find lecturer
 					$user = new User();
 					$name = "%".trim($_POST['name'])."%";
-					$query = "SELECT * from users where (first_name like :fname || last_name like :lname) && ranks = 'lecturer' limit 10";
+					$query = "select * from users where (first_name like :fname || last_name like :lname) && rank = 'lecturer' limit 10";
 					$results = $user->query($query,['fname'=>$name,'lname'=>$name,]);
 				}else{
 					$errors[] = "please type a name to find";
@@ -211,7 +211,7 @@ class Single_class extends Controller
 			if(isset($_POST['selected'])){
 
 				//add lecturer
-				$query = "SELECT id from class_lecturers where user_id = :user_id && class_id = :class_id && disabled = 0 limit 1";
+				$query = "select id from class_lecturers where user_id = :user_id && class_id = :class_id && disabled = 0 limit 1";
  
 				if($row = $lect->query($query,[
 					'user_id' => $_POST['selected'],
@@ -277,7 +277,7 @@ class Single_class extends Controller
 					//find student
 					$user = new User();
 					$name = "%".trim($_POST['name'])."%";
-					$query = "SELECT * from users where (first_name like :fname || last_name like :lname) && ranks = 'student' limit 10";
+					$query = "select * from users where (first_name like :fname || last_name like :lname) && rank = 'student' limit 10";
 					$results = $user->query($query,['fname'=>$name,'lname'=>$name,]);
 				}else{
 					$errors[] = "please type a name to find";
@@ -376,7 +376,7 @@ class Single_class extends Controller
 					//find student
 					$user = new User();
 					$name = "%".trim($_POST['name'])."%";
-					$query = "SELECT * from users where (first_name like :fname || last_name like :lname) && ranks = 'student' limit 10";
+					$query = "select * from users where (first_name like :fname || last_name like :lname) && rank = 'student' limit 10";
 					$results = $user->query($query,['fname'=>$name,'lname'=>$name,]);
 				}else{
 					$errors[] = "please type a name to find";
@@ -386,7 +386,7 @@ class Single_class extends Controller
 			if(isset($_POST['selected'])){
 
 				//add student
-				$query = "SELECT id from class_students where user_id = :user_id && class_id = :class_id && disabled = 0 limit 1";
+				$query = "select id from class_students where user_id = :user_id && class_id = :class_id && disabled = 0 limit 1";
  
 				if($row = $stud->query($query,[
 					'user_id' => $_POST['selected'],
@@ -416,6 +416,8 @@ class Single_class extends Controller
 
 		$this->view('single-class',$data);
 	}
+
+
 	public function testadd($id = '')
 	{
 
@@ -449,7 +451,7 @@ class Single_class extends Controller
  				$arr['test'] 	= $_POST['test'];
  				$arr['description'] 	= $_POST['description'];
  				$arr['class_id'] 	= $id;
-				$arr['disabled'] 	= 0;
+				$arr['disabled'] 	= 1;
 				$arr['date'] 		= date("Y-m-d H:i:s");
 
 				$test_class->insert($arr);

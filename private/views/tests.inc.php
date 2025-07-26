@@ -49,21 +49,24 @@
                  <th>Created By</th>
                  <th>Active</th>
                  <th>Date Created</th>
-                 <th>Take Test</th>
+                 <th>Completed</th>
                  <th></th>
+                 <!-- <th></th> -->
              </tr>
          </thead>
          <tbody>
              <?php if (isset($test_rows) && $test_rows): ?>
                  <?php foreach ($test_rows as $row): ?>
                      <?php if (!$row || !is_object($row)) continue; ?>
-                     <tr>
+                     <tr style='<?=(in_array($test_row->test_id, $unsubmitted)) ? 'background-color:#eebebe':''?>' >
                          <td>
-                             <div class="d-flex align-items-center">
-                                 <a href="<?= ROOT ?>single_test/<?= $row->test_id ?>" class="d-inline-flex fs-14 me-1 action-icon">
-                                     <i class="isax isax-arrow-right-1" data-bs-toggle="modal" data-bs-target="#edit_assignment"></i>
-                                 </a>
-                             </div>
+                             <?php if (Auth::access('lecturer')): ?>
+                                 <div class="d-flex align-items-center">
+                                     <a href="<?= ROOT ?>single_test/<?= $row->test_id ?>" class="d-inline-flex fs-14 me-1 action-icon">
+                                         <i class="isax isax-arrow-right-1" data-bs-toggle="modal" data-bs-target="#edit_assignment"></i>
+                                     </a>
+                                 </div>
+                             <?php endif; ?>
                          </td>
                          <td>
                              <div>
@@ -87,24 +90,34 @@
                                  <?= $badgeText ?>
                              </span>
                          </td>
+
                          <td><?= get_date($row->date ?? '') ?></td>
                          <td>
+
+                             <?php
+                                $myid = get_class($this) == "Profile" ? $row->user_id : Auth::getUser_id();
+                                $percentage = get_answer_percentage($row->test_id, $myid);
+                                ?>
+                             <?= $percentage ?>%
+                         </td>
+                        <td>
                              <?php if (can_take_test($row->test_id)): ?>
                                  <a href="<?= ROOT ?>/take_test/<?= $row->test_id ?>">
                                      <button class="btn btn-sm btn-primary">Take this test</button>
                                  </a>
                              <?php endif; ?>
 
-                             <pre>
-                        <!-- <?= Auth::getUser_id() ?> |
-                        <?= Auth::getRank() ?> |
-                        Can take test? <?= can_take_test($row->test_id) ? 'YES' : 'NO' ?> -->
-                    </pre>
+                             <!-- <pre> -->
+                             <!-- <?= Auth::getUser_id() ?> |
+                                    <?= Auth::getRank() ?> |
+                                    Can take test? <?= can_take_test($row->test_id) ? 'YES' : 'NO' ?> -->
+                             <!-- </pre> -->
 
                              <?php
-                                echo "Auth Rank Debug: " . Auth::getRank();
-                                print_r($_SESSION['USER']);
+                                // echo "Auth Rank Debug: " . Auth::getRank();
+                                // print_r($_SESSION['USER']);
                                 ?>
+                         </td>
                          </td>
                      </tr>
                  <?php endforeach; ?>

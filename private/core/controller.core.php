@@ -2,6 +2,11 @@
 
 class controller
 {
+    public function controller_name()
+	{
+		return get_class($this);
+	}
+    
     public function View($view, $data = array())
     {
         extract($data);

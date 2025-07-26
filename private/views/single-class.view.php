@@ -90,15 +90,19 @@
 								</div>
 							</div>
 							<ul class="nav nav-tabs">
-								<li class="nav-item">
-									<a class="nav-link <?= $page_tab == 'lecturers' ? 'active' : ''; ?> " href="<?= ROOT ?>/single_class/<?= $row->class_id ?>?tab=lecturers">Lecturers</a>
-								</li>
+								<?php if (Auth::access('lecturer')): ?>
+									<li class="nav-item">
+										<a class="nav-link <?= $page_tab == 'lecturers' ? 'active' : ''; ?> " href="<?= ROOT ?>/single_class/<?= $row->class_id ?>?tab=lecturers">Lecturers</a>
+									</li>
+								<?php endif; ?>
 								<li class="nav-item">
 									<a class="nav-link <?= $page_tab == 'students' ? 'active' : ''; ?> " href="<?= ROOT ?>/single_class/<?= $row->class_id ?>?tab=students">Students</a>
 								</li>
-								<li class="nav-item">
-									<a class="nav-link <?= $page_tab == 'tests' ? 'active' : ''; ?> " href="<?= ROOT ?>/single_class/<?= $row->class_id ?>?tab=tests">Tests</a>
-								</li>
+								<?php if (Auth::access('lecturer')): ?>
+									<li class="nav-item">
+										<a class="nav-link <?= $page_tab == 'tests' ? 'active' : ''; ?> " href="<?= ROOT ?>single_class/<?= $row->class_id ?>?tab=tests">Tests</a>
+									</li>
+								<?php endif; ?>
 
 							</ul>
 
@@ -108,7 +112,14 @@
 							switch ($page_tab) {
 								case 'lecturers':
 									// code...
+									// if (Auth::access('lecturer')) {
+									// 	include(views_path('class-tab-lecturers'));
+									// } else {
+									// 	include(views_path('access-denied'));
+									// }
+
 									include(views_path('class-tab-lecturers'));
+
 									break;
 
 								case 'students':
@@ -118,12 +129,21 @@
 
 								case 'tests':
 									// code...
-									include(views_path('class-tab-tests'));
+									if (Auth::access('lecturer')) {
+										include(views_path('class-tab-tests'));
+									} else {
+										include(views_path('access-denied'));
+									}
 									break;
 
 								case 'test-add':
 									// code...
-									include(views_path('class-tab-test-add'));
+									if (Auth::access('lecturer')) {
+										include(views_path('class-tab-test-add'));
+									} else {
+										include(views_path('access-denied'));
+									}
+
 									break;
 
 								case 'test-edit':
@@ -139,12 +159,20 @@
 
 								case 'lecturer-add':
 									// code...
-									include(views_path('class-tab-lecturers-add'));
+									if (Auth::access('lecturer')) {
+										include(views_path('class-tab-lecturers-add'));
+									} else {
+										include(views_path('access-denied'));
+									}
 
 									break;
 								case 'student-add':
 									// code...
-									include(views_path('class-tab-students-add'));
+									if (Auth::access('lecturer')) {
+										include(views_path('class-tab-students-add'));
+									} else {
+										include(views_path('access-denied'));
+									}
 
 									break;
 
@@ -155,13 +183,21 @@
 									break;
 								case 'student-remove':
 									// code...
-									include(views_path('class-tab-students-remove'));
+									if (Auth::access('lecturer')) {
+										include(views_path('class-tab-students-remove'));
+									} else {
+										include(views_path('access-denied'));
+									}
 
 									break;
 
 								case 'students-add':
 									// code...
-									include(views_path('class-tab-students-add'));
+									if (Auth::access('lecturer')) {
+										include(views_path('class-tab-students-add'));
+									} else {
+										include(views_path('access-denied'));
+									}
 
 									break;
 								case 'tests-add':

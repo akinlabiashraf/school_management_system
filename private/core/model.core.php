@@ -10,28 +10,51 @@ class Model extends Database
         }
     }
 
-    public function where($column, $value)
+    protected function get_primary_key($table)
     {
-        $column = addslashes($column);
-        $query = "SELECT * FROM $this->table where 
-        $column = :value";
-        $data = $this->query($query, ['value' => $value]);
-        // run function after select
-        if (is_array($data)) {
-            # code...
-            if (property_exists($this, 'afterSelect')) {
-                foreach ($this->afterSelect as $func) {
-                    $data = $this->$func($data);
-                }
-            }
+
+        $query = "SHOW KEYS from $table WHERE Key_name = 'PRIMARY' ";
+        $db = new Database();
+        $data = $db->query($query);
+
+        if (!empty($data[0])) {
+            return $data[0]->Column_name;
         }
-        return $data;
+        return 'id';
     }
-    public function first($column,$value)
+
+    public function where($column,$value,$orderby = 'desc',$limit = 10,$offset = 0)
 	{
 
 		$column = addslashes($column);
-		$query = "select * from $this->table where $column = :value";
+		$primary_key = $this->get_primary_key($this->table);
+
+		$query = "select * from $this->table where $column = :value order by $primary_key $orderby limit $limit offset $offset";
+		$data = $this->query($query,[
+			'value'=>$value
+		]);
+
+		//run functions after select
+		if(is_array($data)){
+			if(property_exists($this, 'afterSelect'))
+			{
+				foreach($this->afterSelect as $func)
+				{
+					$data = $this->$func($data);
+				}
+			}
+		}
+
+		return $data;
+	}
+
+	public function first($column,$value,$orderby = 'desc')
+	{
+
+		$column = addslashes($column);
+		$primary_key = $this->get_primary_key($this->table);
+
+		$query = "SELECT * from $this->table where $column = :value order by $primary_key $orderby";
 		$data = $this->query($query,[
 			'value'=>$value
 		]);
@@ -53,29 +76,39 @@ class Model extends Database
 		return $data;
 	}
     public function insert($data)
-    {
-        // remove unwanted colum
-        if (property_exists($this, 'beforeInsert')) {
-            foreach ($data as $key => $column) {
-                if (!in_array($key, $this->allowedColumns)) {
-                    unset($data[$key]);
-                }
-            }
-        }
-        // run functions before inserting
-        if (property_exists($this, 'beforeInsert')) {
-            foreach ($this->beforeInsert as $func) {
-                $data = $this->$func($data);
-            }
-        }
-        $keys = array_keys($data);
-        // Wrap column names in backticks
-        $columns = implode(',', array_map(fn($col) => "`$col`", $keys));
-        $values = implode(', :', $keys);
-        $query = "INSERT INTO {$this->table} ($columns) VALUES (:$values)";
+	{
 
-        return $this->query($query, $data);
-    }
+		//remove unwanted columns
+		if(property_exists($this, 'allowedColumns'))
+		{
+			foreach($data as $key => $column)
+			{
+				if(!in_array($key, $this->allowedColumns))
+				{
+					unset($data[$key]);
+				}
+			}
+
+		}
+
+		//run functions before insert
+		if(property_exists($this, 'beforeInsert'))
+		{
+			foreach($this->beforeInsert as $func)
+			{
+				$data = $this->$func($data);
+			}
+		}
+
+		$keys = array_keys($data);
+		$columns = implode(',', $keys);
+		$values = implode(',:', $keys);
+
+		$query = "INSERT into $this->table ($columns) values (:$values)";
+
+		return $this->query($query,$data);
+	}
+
     public function update($id,$data)
 	{
 		//remove unwanted columns
@@ -109,11 +142,13 @@ class Model extends Database
 		$str = trim($str,",");
  
 		$data['id'] = $id;
-		$query = "update $this->table set $str where id = :id";
+		$query = "UPDATE $this->table set $str where id = :id";
+
+		// show($query);
 
 		return $this->query($query,$data);
 	}
-    
+
     public function delete($id)
     {
 
@@ -143,23 +178,46 @@ class Model extends Database
     //     }
     //     // return $this->query($query, $data);
     // }
-    public function findAll($orderby = "desc")
-    {
-        // echo $this::class;
-        // if (empty($this->table)) {
-        //     die("ERROR: Table not set.");
-        // }
-        $query = "SELECT * FROM $this->table order by id $orderby";
-        $data =  $this->query($query);
-        // run function after select
-        if (is_array($data)) {
-            # code...
-            if (property_exists($this, 'afterSelect')) {
-                foreach ($this->afterSelect as $func) {
-                    $data = $this->$func($data);
-                }
-            }
-        }
-        return $data;
-    }
+    // public function findAll($orderby = "desc")
+    // {
+    //     // echo $this::class;
+    //     // if (empty($this->table)) {
+    //     //     die("ERROR: Table not set.");
+    //     // }
+    //     $query = "SELECT * FROM $this->table order by id $orderby";
+    //     $data =  $this->query($query);
+    //     // run function after select
+    //     if (is_array($data)) {
+    //         # code...
+    //         if (property_exists($this, 'afterSelect')) {
+    //             foreach ($this->afterSelect as $func) {
+    //                 $data = $this->$func($data);
+    //             }
+    //         }
+    //     }
+    //     return $data;
+    // }
+
+    public function findAll($orderby = 'desc')
+	{
+
+		$primary_key = $this->get_primary_key($this->table);
+
+		$query = "select * from $this->table order by $primary_key $orderby";
+		$data = $this->query($query);
+
+		//run functions after select
+		if(is_array($data)){
+			if(property_exists($this, 'afterSelect'))
+			{
+				foreach($this->afterSelect as $func)
+				{
+					$data = $this->$func($data);
+				}
+			}
+		}
+
+		return $data;
+
+	}
 }

@@ -9,14 +9,15 @@
 		</form>
 
 		<div>
-			<a href="<?= ROOT ?>/single_class/<?= $row->class_id ?>?tab=lecturer-add&select=true">
-				<button class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> Add New</button>
-			</a>
+			<?php if (Auth::access('lecturer')): ?>
+				<a href="<?= ROOT ?>/single_class/<?= $row->class_id ?>?tab=lecturer-add&select=true">
+					<button class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> Add New</button>
+				</a>
 
-			<a href="<?= ROOT ?>/single_class/<?= $row->class_id ?>?tab=lecturer-remove&select=true">
-				<button class="btn btn-sm btn-primary"><i class="fa fa-minus"></i>Remove</button>
-			</a>
-
+				<a href="<?= ROOT ?>/single_class/<?= $row->class_id ?>?tab=lecturer-remove&select=true">
+					<button class="btn btn-sm btn-primary"><i class="fa fa-minus"></i>Remove</button>
+				</a>
+			<?php endif; ?>
 		</div>
 
 	</nav>

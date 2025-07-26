@@ -2,7 +2,6 @@
 // Classes controller
 class Classes extends Controller
 {
-	
 	public function index()
 	{
 		// code...
@@ -14,9 +13,21 @@ class Classes extends Controller
 		$classes = new Classes_model();
 
 		$school_id = Auth::getSchool_id();
-
+		
 		if(Auth::access('admin')){
-			$data = $classes->query("SELECT * FROM classes WHERE school_id = :school_id order by id desc",['school_id'=>$school_id]);
+
+			$query = "select * from classes where school_id = :school_id && year(date) = :school_year order by id desc";
+			$arr['school_id'] = $school_id;
+			$arr['school_year'] = !empty($_SESSION['SCHOOL_YEAR']->year) ? $_SESSION['SCHOOL_YEAR']->year : date("Y",time());
+
+			if(isset($_GET['find']))
+	 		{
+	 			$find = '%' . $_GET['find'] . '%';
+	 			$query = "select * from classes where school_id = :school_id && (class like :find) && year(date) = :school_year order by id desc";
+	 			$arr['find'] = $find;
+	 		}
+
+			$data = $classes->query($query,$arr);
  		}else{
 
  			$class = new Classes_model();
@@ -25,16 +36,18 @@ class Classes extends Controller
  				$mytable = "class_lecturers";
  			}
  			
-			$query = "SELECT * FROM $mytable WHERE user_id = :user_id && disabled = 0";
-			$arr['stud_classes'] = $class->query($query,['user_id'=>Auth::getUser_id()]);
+			$query = "select * from classes where (class_id in (select class_id from $mytable where user_id = :user_id && disabled = 0) && year(date) = :school_year) || user_id = :user_id ";
+ 			$arr['user_id'] = Auth::getUser_id();
+ 			$arr['school_year'] = !empty($_SESSION['SCHOOL_YEAR']->year) ? $_SESSION['SCHOOL_YEAR']->year : date("Y",time());
 
-			$data = array();
-			if($arr['stud_classes']){
-				foreach ($arr['stud_classes'] as $key => $arow) {
-					// code...
-					$data[] = $class->first('class_id',$arow->class_id);
-				}
-			}
+ 			if(isset($_GET['find']))
+	 		{
+	 			$find = '%' . $_GET['find'] . '%';
+	 			$query = "select classes.class, {$mytable}.* from $mytable join classes on classes.class_id = {$mytable}.class_id where ({$mytable}.user_id = :user_id && {$mytable}.disabled = 0 && classes.class like :find && year(classes.date) = :school_year ) ";
+	 			$arr['find'] = $find;
+	 		}
+
+ 			$data = $class->query($query,$arr);
  
  		}
 
@@ -94,6 +107,7 @@ class Classes extends Controller
 		}
 
 		$classes = new Classes_model();
+ 		$row = $classes->where('id',$id);
 
 		$errors = array();
 		if(count($_POST) > 0 && Auth::access('lecturer') && Auth::i_own_content($row))
@@ -111,7 +125,6 @@ class Classes extends Controller
  			}
  		}
 
- 		$row = $classes->where('id',$id);
 
  		$crumbs[] = ['Dashboard',''];
 		$crumbs[] = ['Classes','classes'];
@@ -139,6 +152,7 @@ class Classes extends Controller
 
  
 		$classes = new Classes_model();
+ 		$row = $classes->where('id',$id);
 
 		$errors = array();
 
@@ -150,7 +164,6 @@ class Classes extends Controller
  		 
  		}
 
- 		$row = $classes->where('id',$id);
 
  		$crumbs[] = ['Dashboard',''];
 		$crumbs[] = ['Classes','classes'];
@@ -168,7 +181,6 @@ class Classes extends Controller
 	}
 	
 }
-
 //  public function add()
 //   {
 //     if(!Auth::isloggedin()){
